@@ -23,7 +23,18 @@ const ListingCard = ({ listing }) => {
   return (
     <Link to={`/listing/${_id}`} style={cardWrapper}>
       <div style={card}>
-        <img src={images[0]} alt={title} style={imageStyle} />
+        <img
+  src={listing.images[0]}
+  alt={listing.title}
+  style={{
+    width: '100%',
+    height: '200px',
+    objectFit: 'cover',
+    borderTopLeftRadius: '10px',
+    borderTopRightRadius: '10px',
+  }}
+/>
+
         <div style={infoStyle}>
           <h3 style={titleStyle}>{title}</h3>
           <p style={locationStyle}>{location}</p>
