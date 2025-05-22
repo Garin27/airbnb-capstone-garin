@@ -1,112 +1,106 @@
+// src/components/ListingCard.js
+
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { FaStar } from 'react-icons/fa';
 
+const ListingCard = ({ listing }) => {
+  if (!listing) return null;
 
-const ListingCard = ({ listing, onUpdate, onDelete }) => {
+  const {
+    _id,
+    title,
+    location,
+    price,
+    rating,
+    reviews,
+    guests,
+    bedrooms,
+    amenities,
+    images
+  } = listing;
+
   return (
-    <div style={cardContainer}>
-      <img
-        src={listing.images[0]}
-        alt={listing.title}
-        style={imageStyle}
-      />
-
-      <div style={infoContainer}>
-        <h3 style={titleStyle}>{listing.title}</h3>
-        <p style={locationStyle}>{listing.location}</p>
-        <p style={detailText}>
-          {listing.guests} guests • {listing.bedrooms} bedrooms • {listing.bathrooms || 1} bathrooms
-        </p>
-        <p style={detailText}>Amenities: {listing.amenities.join(', ')}</p>
-        <p style={priceStyle}>R{listing.price}/night</p>
-        <p style={reviewStyle}>⭐ {listing.rating} ({listing.reviews} reviews)</p>
-
-        <div style={buttonRow}>
-          {onUpdate && (
-            <button style={updateButton} onClick={() => onUpdate(listing._id)}>Update</button>
-          )}
-          {onDelete && (
-            <button style={deleteButton} onClick={() => onDelete(listing._id)}>Delete</button>
-          )}
+    <Link to={`/listing/${_id}`} style={cardWrapper}>
+      <div style={card}>
+        <img src={images[0]} alt={title} style={imageStyle} />
+        <div style={infoStyle}>
+          <h3 style={titleStyle}>{title}</h3>
+          <p style={locationStyle}>{location}</p>
+          <p style={detailsStyle}>{guests} guests • {bedrooms} bedrooms</p>
+          <p style={priceStyle}>R{price}/night</p>
+          <p style={amenitiesStyle}>Amenities: {amenities?.slice(0, 3).join(', ')}</p>
+          <div style={ratingStyle}>
+            <FaStar color="#f5a623" size={14} />
+            <span style={{ marginLeft: '4px' }}>{rating} ({reviews} reviews)</span>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
-// === Styles ===
-const cardContainer = {
+const cardWrapper = {
+  textDecoration: 'none',
+  color: 'inherit'
+};
+
+const card = {
   display: 'flex',
-  alignItems: 'center',
-  gap: '20px',
-  padding: '20px',
-  marginBottom: '20px',
+  flexDirection: 'column',
+  border: '1px solid #eee',
   borderRadius: '12px',
+  overflow: 'hidden',
   backgroundColor: '#fff',
-  boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+  boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
+  transition: 'transform 0.2s ease',
+  cursor: 'pointer',
 };
 
 const imageStyle = {
-  width: '200px',
-  height: '150px',
+  width: '100%',
+  height: '200px',
   objectFit: 'cover',
-  borderRadius: '10px',
 };
 
-const infoContainer = {
-  flex: 1,
+const infoStyle = {
+  padding: '16px',
 };
 
 const titleStyle = {
-  fontSize: '20px',
+  fontSize: '18px',
   fontWeight: '600',
-  margin: '0 0 5px',
+  marginBottom: '6px',
 };
 
 const locationStyle = {
   fontSize: '14px',
-  color: '#666',
-  marginBottom: '5px',
+  color: '#555',
+  marginBottom: '4px',
 };
 
-const detailText = {
-  fontSize: '14px',
-  color: '#333',
-  margin: '2px 0',
+const detailsStyle = {
+  fontSize: '13px',
+  color: '#777',
+  marginBottom: '6px',
 };
 
 const priceStyle = {
-  marginTop: '10px',
-  fontWeight: 'bold',
-  fontSize: '16px',
+  fontWeight: '600',
+  marginBottom: '6px',
 };
 
-const reviewStyle = {
+const amenitiesStyle = {
+  fontSize: '13px',
   color: '#555',
-  fontSize: '14px',
-  marginBottom: '10px',
+  marginBottom: '6px',
 };
 
-const buttonRow = {
+const ratingStyle = {
   display: 'flex',
-  gap: '10px',
-};
-
-const updateButton = {
-  backgroundColor: '#3366ff',
-  color: '#fff',
-  border: 'none',
-  padding: '8px 16px',
-  borderRadius: '6px',
-  cursor: 'pointer',
-};
-
-const deleteButton = {
-  backgroundColor: '#ff4d4f',
-  color: '#fff',
-  border: 'none',
-  padding: '8px 16px',
-  borderRadius: '6px',
-  cursor: 'pointer',
+  alignItems: 'center',
+  fontSize: '13px',
+  color: '#444'
 };
 
 export default ListingCard;
