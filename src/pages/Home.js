@@ -4,6 +4,34 @@ import React, { useEffect, useState } from 'react';
 import api from '../api';
 import ListingCard from '../components/ListingCard';
 
+const featuredDestinations = [
+  {
+    city: 'Paris',
+    country: 'France',
+    image: 'https://source.unsplash.com/featured/?paris,france',
+  },
+  {
+    city: 'New York',
+    country: 'USA',
+    image: 'https://source.unsplash.com/featured/?newyork,city',
+  },
+  {
+    city: 'Tokyo',
+    country: 'Japan',
+    image: 'https://source.unsplash.com/featured/?tokyo,japan',
+  },
+  {
+    city: 'Cape Town',
+    country: 'South Africa',
+    image: 'https://source.unsplash.com/featured/?capetown,beach',
+  },
+  {
+    city: 'Phuket',
+    country: 'Thailand',
+    image: 'https://source.unsplash.com/featured/?phuket,thailand',
+  },
+];
+
 const Home = () => {
   const [listings, setListings] = useState([]);
 
@@ -13,62 +41,132 @@ const Home = () => {
       .catch(err => console.error('Error fetching listings:', err));
   }, []);
 
-  const handleUpdate = (id) => {
-    // navigate to update page
-    window.location.href = `/update-listing/${id}`;
-  };
-
-  const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this listing?')) return;
-    const token = localStorage.getItem('token');
-    try {
-      await api.delete(`/api/listings/${id}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setListings(listings.filter(l => l._id !== id));
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   return (
-    <div style={pageContainer}>
-      <h1 style={pageTitle}>Airbnb Listings</h1>
-      <div style={gridContainer}>
-        {listings.map(listing => (
-          <ListingCard
-            key={listing._id}
-            listing={listing}
-            onUpdate={handleUpdate}
-            onDelete={handleDelete}
-          />
-        ))}
-      </div>
+    <div>
+      {/* Hero Section */}
+      <section style={heroSection}>
+        <div style={heroContent}>
+          <h1 style={heroTitle}>Not sure where to go? Perfect.</h1>
+          <button style={heroButton}>I'm flexible</button>
+        </div>
+      </section>
+
+      {/* Inspiration Section */}
+      <section style={sectionWrapper}>
+        <h2 style={sectionTitle}>Inspiration for your next trip</h2>
+        <div style={destinationGrid}>
+          {featuredDestinations.map((dest, index) => (
+            <div key={index} style={{ ...card, backgroundImage: `url(${dest.image})` }}>
+              <div style={cardOverlay}>
+                <p style={cardCity}>{dest.city}</p>
+                <p style={cardCountry}>{dest.country}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Listing Results */}
+      <section style={sectionWrapper}>
+        <h2 style={sectionTitle}>Browse All Listings</h2>
+        <div style={listingGrid}>
+          {listings.map(listing => (
+            <ListingCard key={listing._id} listing={listing} />
+          ))}
+        </div>
+      </section>
     </div>
   );
 };
 
-const pageContainer = {
+// === Styles ===
+const heroSection = {
+  backgroundImage: 'url(https://source.unsplash.com/1600x600/?modern,house)',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  height: '400px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  color: '#fff',
+  position: 'relative',
+};
+
+const heroContent = {
+  textAlign: 'center',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  padding: '20px 40px',
+  borderRadius: '12px',
+};
+
+const heroTitle = {
+  fontSize: '36px',
+  fontWeight: '600',
+  marginBottom: '16px',
+};
+
+const heroButton = {
+  padding: '10px 20px',
+  fontSize: '16px',
+  border: 'none',
+  borderRadius: '30px',
+  backgroundColor: '#fff',
+  color: '#000',
+  cursor: 'pointer',
+};
+
+const sectionWrapper = {
   maxWidth: '1200px',
-  margin: '0 auto',
-  padding: '40px 20px',
-  backgroundColor: '#f7f7f7',
+  margin: '40px auto',
+  padding: '0 20px',
 };
 
-const pageTitle = {
-  fontSize: '32px',
-  fontWeight: '700',
-  marginBottom: '30px',
-  color: '#333',
+const sectionTitle = {
+  fontSize: '24px',
+  marginBottom: '20px',
 };
 
-const gridContainer = {
+const destinationGrid = {
   display: 'grid',
-  gridTemplateColumns: '1fr',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+  gap: '16px',
+};
+
+const card = {
+  height: '180px',
+  borderRadius: '12px',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  position: 'relative',
+  overflow: 'hidden',
+};
+
+const cardOverlay = {
+  backgroundColor: 'rgba(0,0,0,0.4)',
+  color: '#fff',
+  position: 'absolute',
+  bottom: 0,
+  width: '100%',
+  padding: '10px 12px',
+};
+
+const cardCity = {
+  fontSize: '16px',
+  fontWeight: '600',
+};
+
+const cardCountry = {
+  fontSize: '12px',
+};
+
+const listingGrid = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
   gap: '20px',
 };
 
 export default Home;
+
 
 
 
