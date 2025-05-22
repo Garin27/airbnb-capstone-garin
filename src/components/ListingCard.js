@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaStar } from 'react-icons/fa';
+
 
 const ListingCard = ({ listing }) => {
   if (!listing) return null;
