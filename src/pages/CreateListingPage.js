@@ -1,5 +1,7 @@
+// src/pages/CreateListingPage.js
+
 import React, { useState } from 'react';
-import api from '../api'; // adjust if this file is deeper in structure
+import api from '../api';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -34,16 +36,12 @@ const CreateListingPage = () => {
     const token = localStorage.getItem('token');
 
     try {
-      await api.post(
-        '/api/listings',
-        {
-          ...listing,
-          amenities: listing.amenities.split(',').map(a => a.trim())
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
+      await api.post('/api/listings', {
+        ...listing,
+        amenities: listing.amenities.split(',').map(a => a.trim())
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
 
       toast.success('✅ Listing created!');
       navigate('/?created=true');
@@ -54,26 +52,86 @@ const CreateListingPage = () => {
   };
 
   return (
-    <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
-      <h2>Create New Listing</h2>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        <input name="title" placeholder="Title" value={listing.title} onChange={handleChange} required />
-        <input name="location" placeholder="Location" value={listing.location} onChange={handleChange} required />
-        <input name="price" type="number" placeholder="Price" value={listing.price} onChange={handleChange} required />
-        <input name="guests" type="number" placeholder="Guests" value={listing.guests} onChange={handleChange} />
-        <input name="bedrooms" type="number" placeholder="Bedrooms" value={listing.bedrooms} onChange={handleChange} />
-        <input name="rating" type="number" step="0.1" placeholder="Rating" value={listing.rating} onChange={handleChange} />
-        <input name="reviews" type="number" placeholder="Reviews" value={listing.reviews} onChange={handleChange} />
-        <input value={listing.images[0]} onChange={(e) => handleImageChange(e, 0)} placeholder="Image URL" required />
-        <input name="amenities" placeholder="Amenities (comma-separated)" value={listing.amenities} onChange={handleChange} />
-        <textarea name="description" placeholder="Description" value={listing.description} onChange={handleChange} required />
-        <button type="submit" style={{ background: '#FF5A5F', color: 'white', padding: '10px', border: 'none', borderRadius: '6px' }}>
-          Create Listing
-        </button>
-      </form>
+    <div style={pageContainer}>
+      <div style={formCard}>
+        <h2 style={formTitle}>Create Listing</h2>
+        <form onSubmit={handleSubmit} style={formStyle}>
+          <div style={formGrid}>
+            <input name="title" placeholder="Title" value={listing.title} onChange={handleChange} style={inputStyle} required />
+            <input name="location" placeholder="Location" value={listing.location} onChange={handleChange} style={inputStyle} required />
+            <input name="price" type="number" placeholder="Price" value={listing.price} onChange={handleChange} style={inputStyle} required />
+            <input name="guests" type="number" placeholder="Guests" value={listing.guests} onChange={handleChange} style={inputStyle} />
+            <input name="bedrooms" type="number" placeholder="Bedrooms" value={listing.bedrooms} onChange={handleChange} style={inputStyle} />
+            <input name="rating" type="number" step="0.1" placeholder="Rating" value={listing.rating} onChange={handleChange} style={inputStyle} />
+            <input name="reviews" type="number" placeholder="Reviews" value={listing.reviews} onChange={handleChange} style={inputStyle} />
+            <input value={listing.images[0]} onChange={(e) => handleImageChange(e, 0)} placeholder="Image URL" style={inputStyle} required />
+            <input name="amenities" placeholder="Amenities (comma-separated)" value={listing.amenities} onChange={handleChange} style={inputStyle} />
+          </div>
+          <textarea name="description" placeholder="Description" value={listing.description} onChange={handleChange} required style={textareaStyle} />
+          <button type="submit" style={submitButton}>Create Listing</button>
+        </form>
+      </div>
     </div>
   );
 };
 
-export default CreateListingPage;
+// === Styles ===
+const pageContainer = {
+  maxWidth: '800px',
+  margin: '40px auto',
+  padding: '20px',
+};
 
+const formCard = {
+  backgroundColor: '#fff',
+  borderRadius: '12px',
+  padding: '30px',
+  boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+};
+
+const formTitle = {
+  fontSize: '24px',
+  marginBottom: '20px',
+  fontWeight: '600',
+  textAlign: 'center',
+};
+
+const formStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '16px',
+};
+
+const formGrid = {
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr',
+  gap: '16px',
+};
+
+const inputStyle = {
+  padding: '12px',
+  borderRadius: '6px',
+  border: '1px solid #ccc',
+  fontSize: '14px',
+};
+
+const textareaStyle = {
+  padding: '12px',
+  borderRadius: '6px',
+  border: '1px solid #ccc',
+  minHeight: '100px',
+  fontSize: '14px',
+  resize: 'vertical',
+};
+
+const submitButton = {
+  backgroundColor: '#FF5A5F',
+  color: '#fff',
+  padding: '12px',
+  fontSize: '16px',
+  border: 'none',
+  borderRadius: '6px',
+  cursor: 'pointer',
+};
+
+export default CreateListingPage;
