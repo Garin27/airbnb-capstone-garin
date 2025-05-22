@@ -23,7 +23,7 @@ const featuredDestinations = [
   {
     city: 'Cape Town',
     country: 'South Africa',
-    image: 'https://images.unsplash.com/photo-1601297082881-2039f5cbea3c?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1545231027-637d2f6210f4?auto=format&fit=crop&w=800&q=80',
   },
   {
     city: 'Phuket',
@@ -81,7 +81,8 @@ const Home = () => {
 
 // === Styles ===
 const heroSection = {
-  backgroundImage: 'url(https://images.unsplash.com/photo-1505691723518-34b51a3ead5c?auto=format&fit=crop&w=1600&q=80)',
+  backgroundImage: 'url(https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80)',
+
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   height: '400px',
