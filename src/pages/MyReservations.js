@@ -1,3 +1,5 @@
+// src/pages/MyReservations.js
+
 import React, { useEffect, useState } from 'react';
 import api from '../api';
 import { toast } from 'react-toastify';
@@ -10,9 +12,7 @@ const MyReservations = () => {
     const token = localStorage.getItem('token');
 
     api.get('/api/reservations', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => setReservations(res.data))
       .catch(err => {
@@ -22,20 +22,17 @@ const MyReservations = () => {
   }, []);
 
   const handleCancel = async (id) => {
-    if (!window.confirm('Are you sure you want to cancel this reservation?')) return;
+    if (!window.confirm('Cancel this reservation?')) return;
 
     const token = localStorage.getItem('token');
 
     try {
       await api.delete(`/api/reservations/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` }
       });
-      setReservations(reservations.filter(res => res._id !== id));
+      setReservations(prev => prev.filter(res => res._id !== id));
       toast.info('Reservation cancelled.');
     } catch (err) {
-      console.error('Failed to cancel reservation:', err);
       toast.error('❌ Could not cancel reservation.');
     }
   };
@@ -49,20 +46,24 @@ const MyReservations = () => {
   }
 
   return (
-    <div style={{ maxWidth: '900px', margin: '0 auto', padding: '20px', fontFamily: 'Arial' }}>
-      <h2>My Reservations</h2>
+    <div style={pageContainer}>
+      <h2 style={title}>My Reservations</h2>
       {reservations.map((res) => (
         <div key={res._id} style={cardStyle}>
-          <h3>{res.listing?.title || 'Unknown Listing'}</h3>
-          <p><strong>Location:</strong> {res.listing?.location}</p>
+          <h3 style={cardTitle}>{res.listing?.title || 'Listing'}</h3>
+          <p style={cardSub}>{res.listing?.location}</p>
           <p><strong>Check-in:</strong> {new Date(res.checkIn).toLocaleDateString()}</p>
           <p><strong>Check-out:</strong> {new Date(res.checkOut).toLocaleDateString()}</p>
           <p><strong>Guests:</strong> {res.guests}</p>
-          <p><strong>Total:</strong> R{((new Date(res.checkOut) - new Date(res.checkIn)) / (1000 * 60 * 60 * 24)) * res.listing.price}</p>
-          <button
-            onClick={() => handleCancel(res._id)}
-            style={cancelButtonStyle}
-          >
+          <p>
+            <strong>Total:</strong>{' '}
+            R
+            {(
+              ((new Date(res.checkOut) - new Date(res.checkIn)) / (1000 * 60 * 60 * 24)) *
+              (res.listing?.price || 0)
+            ).toFixed(2)}
+          </p>
+          <button onClick={() => handleCancel(res._id)} style={cancelButton}>
             Cancel Reservation
           </button>
         </div>
@@ -71,24 +72,51 @@ const MyReservations = () => {
   );
 };
 
-const cardStyle = {
-  border: '1px solid #ddd',
-  borderRadius: '8px',
-  padding: '15px',
-  marginBottom: '20px',
-  backgroundColor: '#f9f9f9',
-  boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+// === Styles ===
+const pageContainer = {
+  maxWidth: '900px',
+  margin: '0 auto',
+  padding: '40px 20px',
 };
 
-const cancelButtonStyle = {
-  marginTop: '10px',
+const title = {
+  fontSize: '28px',
+  fontWeight: '600',
+  marginBottom: '30px',
+  color: '#333',
+};
+
+const cardStyle = {
+  backgroundColor: '#fff',
+  borderRadius: '12px',
+  padding: '20px',
+  marginBottom: '20px',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+};
+
+const cardTitle = {
+  fontSize: '18px',
+  fontWeight: '600',
+  marginBottom: '4px',
+};
+
+const cardSub = {
+  fontSize: '14px',
+  color: '#666',
+  marginBottom: '10px',
+};
+
+const cancelButton = {
+  marginTop: '15px',
   backgroundColor: '#ccc',
-  border: 'none',
-  padding: '8px 12px',
+  color: '#000',
+  padding: '8px 14px',
   borderRadius: '6px',
+  border: 'none',
   cursor: 'pointer',
 };
 
 export default MyReservations;
+
 
 

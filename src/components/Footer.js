@@ -1,33 +1,62 @@
- import React from 'react';
+// src/components/Footer.js
+
+import React from 'react';
 
 const Footer = () => {
   return (
-    <footer style={footerStyle}>
-      <p>&copy; {new Date().getFullYear()} The Daily Scalp • Built by Garin Hoole</p>
-      <div>
-        <a href="https://www.instagram.com/garin_hoole" target="_blank" rel="noreferrer" style={linkStyle}>
-          Instagram
-        </a>
-        {' | '}
-        <a href="mailto:garin27@icloud.com" style={linkStyle}>Contact</a>
+    <footer style={footerContainer}>
+      <div style={footerContent}>
+        <p style={footerText}>
+          © {new Date().getFullYear()} The Daily Scalp • Built by Garin Hoole
+        </p>
+        <div style={linkGroup}>
+          <a href="https://www.instagram.com/garin_hoole" target="_blank" rel="noreferrer" style={footerLink}>
+            Instagram
+          </a>
+          <span style={divider}>|</span>
+          <a href="/contact" style={footerLink}>
+            Contact
+          </a>
+        </div>
       </div>
     </footer>
   );
 };
 
-const footerStyle = {
-  marginTop: '40px',
+// === Styles ===
+const footerContainer = {
+  backgroundColor: '#f7f7f7',
   padding: '20px',
-  textAlign: 'center',
-  backgroundColor: '#f5f5f5',
-  color: '#444',
-  fontSize: '14px',
-  borderTop: '1px solid #ddd'
+  marginTop: '60px',
+  borderTop: '1px solid #ddd',
 };
 
-const linkStyle = {
+const footerContent = {
+  maxWidth: '1200px',
+  margin: '0 auto',
+  textAlign: 'center',
+  fontSize: '14px',
   color: '#555',
-  textDecoration: 'none'
+};
+
+const linkGroup = {
+  marginTop: '8px',
+};
+
+const footerLink = {
+  color: '#333',
+  textDecoration: 'none',
+  margin: '0 6px',
+};
+
+const divider = {
+  margin: '0 6px',
+  color: '#999',
+};
+
+const footerText = {
+  marginBottom: '5px',
 };
 
 export default Footer;
+
