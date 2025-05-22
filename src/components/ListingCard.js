@@ -1,117 +1,81 @@
 // src/components/ListingCard.js
 
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { FaStar } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const ListingCard = ({ listing }) => {
-  if (!listing) return null;
+  const navigate = useNavigate();
 
-  const {
-    _id,
-    title,
-    location,
-    price,
-    rating,
-    reviews,
-    guests,
-    bedrooms,
-    amenities,
-    images
-  } = listing;
+  const handleClick = () => {
+    navigate(`/listing/${listing._id}`);
+  };
 
   return (
-    <Link to={`/listing/${_id}`} style={cardWrapper}>
-      <div style={card}>
-        <img
-  src={listing.images[0]}
-  alt={listing.title}
-  style={{
-    width: '100%',
-    height: '200px',
-    objectFit: 'cover',
-    borderTopLeftRadius: '10px',
-    borderTopRightRadius: '10px',
-  }}
-/>
+    <div
+      onClick={handleClick}
+      style={cardStyle}
+    >
+      <img
+        src={listing.images[0]}
+        alt={listing.title}
+        style={{ width: '100%', height: '200px', objectFit: 'cover', borderTopLeftRadius: '12px', borderTopRightRadius: '12px' }}
+      />
 
-        <div style={infoStyle}>
-          <h3 style={titleStyle}>{title}</h3>
-          <p style={locationStyle}>{location}</p>
-          <p style={detailsStyle}>{guests} guests • {bedrooms} bedrooms</p>
-          <p style={priceStyle}>R{price}/night</p>
-          <p style={amenitiesStyle}>Amenities: {amenities?.slice(0, 3).join(', ')}</p>
-          <div style={ratingStyle}>
-            <FaStar color="#f5a623" size={14} />
-            <span style={{ marginLeft: '4px' }}>{rating} ({reviews} reviews)</span>
-          </div>
-        </div>
+      <div style={infoWrapper}>
+        <h3 style={titleStyle}>{listing.title}</h3>
+        <p style={locationStyle}>{listing.location}</p>
+        <p style={detailsStyle}>
+          {listing.guests} guests • {listing.bedrooms} bedrooms
+        </p>
+        <p style={priceStyle}>R{listing.price}/night</p>
+        <p style={reviewStyle}>⭐ {listing.rating} ({listing.reviews} reviews)</p>
       </div>
-    </Link>
+    </div>
   );
 };
 
-const cardWrapper = {
-  textDecoration: 'none',
-  color: 'inherit'
-};
-
-const card = {
-  display: 'flex',
-  flexDirection: 'column',
-  border: '1px solid #eee',
+// === Styles ===
+const cardStyle = {
   borderRadius: '12px',
   overflow: 'hidden',
-  backgroundColor: '#fff',
-  boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
-  transition: 'transform 0.2s ease',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
   cursor: 'pointer',
+  backgroundColor: '#fff',
+  transition: 'transform 0.2s',
 };
 
-const imageStyle = {
-  width: '100%',
-  height: '200px',
-  objectFit: 'cover',
-};
-
-const infoStyle = {
+const infoWrapper = {
   padding: '16px',
 };
 
 const titleStyle = {
   fontSize: '18px',
   fontWeight: '600',
-  marginBottom: '6px',
+  margin: '0 0 4px 0',
 };
 
 const locationStyle = {
   fontSize: '14px',
-  color: '#555',
+  color: '#666',
   marginBottom: '4px',
 };
 
 const detailsStyle = {
-  fontSize: '13px',
-  color: '#777',
-  marginBottom: '6px',
-};
-
-const priceStyle = {
-  fontWeight: '600',
-  marginBottom: '6px',
-};
-
-const amenitiesStyle = {
-  fontSize: '13px',
+  fontSize: '14px',
   color: '#555',
   marginBottom: '6px',
 };
 
-const ratingStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  fontSize: '13px',
-  color: '#444'
+const priceStyle = {
+  fontSize: '16px',
+  fontWeight: '600',
+  color: '#000',
+};
+
+const reviewStyle = {
+  fontSize: '14px',
+  color: '#333',
+  marginTop: '4px',
 };
 
 export default ListingCard;

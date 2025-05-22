@@ -8,27 +8,27 @@ const featuredDestinations = [
   {
     city: 'Paris',
     country: 'France',
-    image: 'https://source.unsplash.com/featured/?paris,city',
+    image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80',
   },
   {
     city: 'New York',
     country: 'USA',
-    image: 'https://source.unsplash.com/featured/?newyork,city',
+    image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80',
   },
   {
     city: 'Tokyo',
     country: 'Japan',
-    image: 'https://source.unsplash.com/featured/?tokyo,city',
+    image: 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=800&q=80',
   },
   {
     city: 'Cape Town',
     country: 'South Africa',
-    image: 'https://source.unsplash.com/featured/?capetown,beach',
+    image: 'https://images.unsplash.com/photo-1601297082881-2039f5cbea3c?auto=format&fit=crop&w=800&q=80',
   },
   {
     city: 'Phuket',
     country: 'Thailand',
-    image: 'https://source.unsplash.com/featured/?phuket,beach',
+    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
   },
 ];
 
@@ -166,6 +166,7 @@ const listingGrid = {
 };
 
 export default Home;
+
 
 
 
