@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import Home from './pages/Home'; // ✅ NEW HOME PAGE
 import ListingsPage from './pages/ListingsPage';
 import ListingDetails from './pages/ListingDetails';
 import MyReservations from './pages/MyReservations';
@@ -19,9 +20,12 @@ function App() {
     <Router>
       <Navbar />
       <ToastContainer position="top-right" autoClose={3000} />
-      
+
       <Routes>
-        <Route path="/" element={<ListingsPage />} />
+        {/* ✅ Home page updated here */}
+        <Route path="/" element={<Home />} />
+
+        <Route path="/listings" element={<ListingsPage />} />
         <Route path="/listing/:id" element={<ListingDetails />} />
         <Route path="/listing/:id/edit" element={
           <ProtectedRoute>
@@ -48,4 +52,3 @@ function App() {
 }
 
 export default App;
-
